@@ -7,6 +7,8 @@ using Raven.Client.Document;
 
 namespace RavenDBBlogConsole
 {
+    using System.Transactions;
+
     class Program
     {
         static void Main(string[] args)
@@ -19,9 +21,14 @@ namespace RavenDBBlogConsole
             docStore.Initialize();
 
             using (var session = docStore.OpenSession())
+            using(var tran = new TransactionScope())
             {
-                var post = session.Load<Post>("posts/1").Title = "New Title";
+                var post = session.Load<Post>("posts/1").Title = "New Title 2";
                 session.SaveChanges();
+
+                throw new Exception("Pwned!");
+
+                tran.Complete();
             }
         }
     }
