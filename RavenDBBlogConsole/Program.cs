@@ -20,16 +20,7 @@ namespace RavenDBBlogConsole
 
             using (var session = docStore.OpenSession())
             {
-                var post = new Post()
-                           {
-                               BlogId = "blogs/33",
-                               Comments = new List<Comment>() { new Comment() { CommenterName = "Bob", Text = "Hello!" } },
-                               Content = "Some text",
-                               Tags = new List<string>() { "tech" },
-                               Title = "First post",
-                           };
-
-                session.Store(post);
+                var post = session.Load<Post>("posts/1").Title = "New Title";
                 session.SaveChanges();
             }
         }
