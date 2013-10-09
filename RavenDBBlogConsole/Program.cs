@@ -20,14 +20,9 @@ namespace RavenDBBlogConsole
 
             using (var session = docStore.OpenSession())
             {
-                var blog = new Blog()
-                           {
-                               Name = "My New Blog",
-                               Author = "Brian"
-                           };
+                var blog = session.Load<Blog>("blogs/1");
 
-                session.Store(blog);
-                session.SaveChanges();
+                Console.WriteLine("Name: {0}, Author: {1}", blog.Name, blog.Author);
             }
         }
     }
