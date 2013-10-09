@@ -20,17 +20,42 @@ namespace RavenDBBlogConsole
 
             using (var session = docStore.OpenSession())
             {
-                var blog = session.Load<Blog>("blogs/1");
+                var post = new Post()
+                           {
+                               BlogId = "blogs/33",
+                               Comments = new List<Comment>() { new Comment() { CommenterName = "Bob", Text = "Hello!" } },
+                               Content = "Some text",
+                               Tags = new List<string>() { "tech" },
+                               Title = "First post",
+                           };
 
-                Console.WriteLine("Name: {0}, Author: {1}", blog.Name, blog.Author);
+                session.Store(post);
+                session.SaveChanges();
             }
         }
     }
+
 
     public class Blog
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Author { get; set; }
+    }
+
+    public class Post
+    {
+        public string Id { get; set; }
+        public string BlogId { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<string> Tags { get; set; }
+    }
+
+    public class Comment
+    {
+        public string CommenterName { get; set; }
+        public string Text { get; set; }
     }
 }
